@@ -52,7 +52,7 @@ Cuando termines de leer estas instrucciones en el nuevo repositorio que creaste 
 endstep0--> 
 
 
-<details id=1 open> 
+<details id=1> 
 
 <summary><h2>Step 1: Informacion General y Autogestion</h2></summary> 
 
@@ -576,7 +576,7 @@ Este tipo de pruebas evidencia las vulnerabilidades existentes en las soluciones
 
   
 
-<details id=2> 
+<details id=2 open> 
 
 <summary><h2>Step 2: Soporte Ingeniería de Software DevExp</h2></summary> 
 
