@@ -833,7 +833,7 @@ Ej. - NU0007001_Nombre_Pipeline con los nombres de los pipelines operativos de C
 
   
 
-<details id=4 open> 
+<details id=4> 
 
 <summary><h2>Step 4: Métricas de Calidad</h2></summary> 
 
@@ -1063,7 +1063,7 @@ Ej metrica.nombre
 
   
 
-<details id=5> 
+<details id=5 open> 
 
 <summary><h2>Step 5: Proceso de Pruebas</h2></summary> 
 
