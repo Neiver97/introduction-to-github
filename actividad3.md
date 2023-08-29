@@ -1,8 +1,9 @@
-1. 
+1. NU0007001_Curiosity_Operations_Assessment_refresh_report
  
-2. 
+2. NU0007001_Curiosity_Operations_Assessment_repo_register
 
-3. 
+3. NU0007001_syncCompanyData_HB
 
-4. 
+4. NU0007001_arquitecturaAutomatizacion_Test
 
+5. NU0007001_Curiosity_LambdaEdge_AD_HB_Lambda
