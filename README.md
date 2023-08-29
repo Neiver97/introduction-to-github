@@ -739,7 +739,7 @@ Ej. - Nombre-del-Pool
 
   
 
-<details id=3 open> 
+<details id=3> 
 
 <summary><h2>Step 3: Pipelines Operativos</h2></summary> 
 
@@ -833,7 +833,7 @@ Ej. - NU0007001_Nombre_Pipeline con los nombres de los pipelines operativos de C
 
   
 
-<details id=4> 
+<details id=4 open> 
 
 <summary><h2>Step 4: Métricas de Calidad</h2></summary> 
 
