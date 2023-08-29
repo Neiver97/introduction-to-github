@@ -1,0 +1,75 @@
+name: Step 8, Pruebas de Aceptacion Front
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step8-pruebas-de-aceptacion-front
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_pruebas_aceptacion_front:
+    name: On pruebas aceptacion front
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad8.md"
+          SEARCH: '\.toBe\(\"THANK YOU FOR YOUR ORDER\"\)'
+      
+      - name: Prepare  branch, and file
+        run: |
+          echo "Make sure we are on step 8"
+          if [ "$(cat .github/script/STEP)" != 8]
+          then
+            echo "Current step is not 8"
+            exit 8
+          fi
+          echo "Make a branch"
+          BRANCH=step9-pruebas-de-aceptacion-flutter
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm actividad8.md
+          echo "Make a file"
+          touch MainActivityTest.java.md
+          
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create MainActivityTest.java.md file"
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          echo "Restore branch"
+          git checkout step9-pruebas-de-aceptacion-flutter
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      
+
+      # Update README to close <details id=9> and open <details id=10>
+      # and set STEP to '9'
+      - name: Update to step 9
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 8
+          to_step: 9
+          branch_name: step9-pruebas-de-aceptacion-flutter

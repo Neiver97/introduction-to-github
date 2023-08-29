@@ -1,0 +1,77 @@
+name: Step 2, Soporte devexp
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step2-soporte-devexp
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_soporte_devexp:
+    name: On soporte devexp
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad2.md"
+          SEARCH: '([a-zA-Z]+(?:-[a-zA-Z]+)*)' 
+      
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 2"
+          if [ "$(cat .github/script/STEP)" != 2]
+          then
+            echo "Current step is not 2"
+            exit 2
+          fi
+          echo "Make a branch"
+          BRANCH=step3-pipelines-operativos
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm actividad2.md
+          echo "Make a file"
+          touch actividad3.md
+          echo -e "1. \n 
+          2. \n
+          3. \n
+          4. \n" >>actividad3.md
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad3.md file"
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          echo "Restore branch"
+          git checkout step3-pipelines-operativos
+         
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      
+
+   
+      - name: Update to step 3
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 2
+          to_step: 3
+          branch_name: step3-pipelines-operativos

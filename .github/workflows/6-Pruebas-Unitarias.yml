@@ -1,0 +1,99 @@
+name: Step 6, Pruebas Unitarias
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step6-pruebas-unitarias
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_pruebas_unitarias:
+    name: On pruebas unitarias
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad6.md"
+          SEARCH: '([assertEquals(]+str1,str2[);]+|[assertTrue(]+val1<val2[);]+|[assertFalse(]+val1>val2[);]+|[assertNull(]+str3[);]+|[assertSame(]+str4,str5[);]+|[assertArrayEquals(]+expectedArray,resultArray[);])'
+       
+      
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 6"
+          if [ "$(cat .github/script/STEP)" != 6]
+          then
+            echo "Current step is not 6"
+            exit 6
+          fi
+          echo "Make a branch"
+          BRANCH=step7-pruebas-de-aceptacion
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm actividad6.md
+          echo "Make a file"
+          touch actividad7.md
+          echo -e "function fn() {\n 
+          var env = '#{env}#';\n 
+          karate.log('karate.env system property was:', env);\n 
+          if (!env) {\n 
+          env = 'dev';\n 
+          }\n 
+          var      = {
+                 : 'https://test-dev.apps.ambientesbc.com'\n 
+          };\n 
+          if (env == 'dev') {\n 
+          config.      = 'https://test-dev.apps.ambientesbc.com';\n 
+          } else if (env == 'cer') {
+          config.      = 'https://test-qa.apps.ambientesbc.com';\n 
+          }\n 
+          karate.configure('       ', 5000);\n 
+          karate.configure('       ', 5000);\n 
+          karate.configure('ssl', true);\n 
+          return config;\n 
+          }" >> actividad7.md
+          
+          
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad7.md file"
+      
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          
+          echo "Restore branch"
+          git checkout step7-pruebas-de-aceptacion
+          
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      
+
+      # Update README to close <details id=0> and open <details id=1>
+      # and set STEP to '4'
+      - name: Update to step 7
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 6
+          to_step: 7
+          branch_name: step7-pruebas-de-aceptacion

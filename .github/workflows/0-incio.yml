@@ -1,0 +1,73 @@
+name: Step 0, Inicio
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_start:
+    name: On start
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+
+      # Make a branch, file, commit, and pull request 
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 0"
+          if [ "$(cat .github/script/STEP)" != 0 ]
+          then
+            echo "Current step is not 0"
+            exit 0
+          fi
+          echo "Make a branch"
+          BRANCH=step1-informacion-general
+          git checkout -b $BRANCH
+          echo "Make files"
+          touch actividad1.md
+          echo -e "- \n 
+          - \n
+          - \n" >>actividad1.md
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad1.md file"
+       
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+
+       
+          echo "Restore branch"
+          git checkout step1-informacion-general
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      # Update README to close <details id=0> and open <details id=1>
+      # and set STEP to '1'
+      - name: Update to step 1
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 0
+          to_step: 1
+          branch_name: step1-informacion-general

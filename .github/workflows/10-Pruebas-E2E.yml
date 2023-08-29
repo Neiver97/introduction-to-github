@@ -1,0 +1,59 @@
+name: Step 10, Pruebas E2E
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step10-pruebas-e2e
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_pruebas_e2e:
+    name: On pruebas e2e
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad10.md"
+          SEARCH: '(\@Cuando\(\"ingresa los datos correctamente\"|theActorInTheSpotlight\(\)\.attemptsTo)'
+      
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 10"
+          if [ "$(cat .github/script/STEP)" != 10]
+          then
+            echo "Current step is not 10"
+            exit 10
+          fi
+          echo "Restore main"
+          git checkout main
+         
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+
+      # Update README to close <details id=0> and open <details id=x>
+      # and set STEP to "x"
+      - name: Update to step x
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 10
+          to_step: x
+          branch_name: main

@@ -1,0 +1,93 @@
+name: Step 5, proceso de pruebas
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step5-proceso-de-pruebas
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_prceso_de_pruebas:
+    name: On proceso de pruebas
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad5.md"
+          SEARCH: '([a-zA-Z\s]+)'
+      
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 5"
+          if [ "$(cat .github/script/STEP)" != 5 ]
+          then
+            echo "Current step is not 5"
+            exit 5
+          fi
+          echo "Make a branch"
+          BRANCH=step6-pruebas-unitarias
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm actividad5.md
+          echo "Make a file"
+          touch actividad6.md
+          echo -e "//Comprueba que dos objetos son iguales\n
+          assertEquals();\n
+          //Comprueba que una condición es verdadera\n 
+          assertTrue( < );\n
+          //Comprueba que una condición es falsa\n
+          assertFalse( > );\n
+          //Comprueba que un objeto no es nulo\n
+          assertNotNull(str2);\n
+          //Comprueba que un objeto es nulo\n
+          assertNull( );\n
+          //Comprueba si dos referencias apuntan al mismo objeto\n
+          assertSame( );\n
+          //Comprueba que dos referencias no apuntan al mismo objeto\n
+          assertNotSame(str1,str3);\n
+          //Comprueba que dos arrays son iguales.\n
+          assertArrayEquals();" >> actividad6.md
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad6.md file"
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          
+          echo "Restore branch"
+          git checkout step6-pruebas-unitarias
+        
+         
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      
+
+      # Update README to close <details id=0> and open <details id=1>
+      # and set STEP to '6'
+      - name: Update to step 6
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 5
+          to_step: 6
+          branch_name: step6-pruebas-unitarias
+

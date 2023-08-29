@@ -1,0 +1,82 @@
+name: Step 9, Pruebas de Aceptacion Flutter
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step9-pruebas-de-aceptacion-flutter
+
+# Reference https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_pruebas_de_aceptacion_flutter:
+    name: On de aceptacion flutter
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "MainActivityTest.java.md"
+          SEARCH: "([public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class, true, false;])"
+
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 9"
+          if [ "$(cat .github/script/STEP)" != 9]
+          then
+            echo "Current step is not 9"
+            exit 9
+          fi
+          echo "Make a branch"
+          BRANCH=step10-pruebas-e2e
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm MainActivityTest.java.md
+          echo "Make a file"
+          touch actividad10.md
+          echo -e "@          (\"ingresa los datos correctamente\")\n 
+          public void ingresaLosDatosCorrectamente(List \<Credenciales\> datos) throws Exception{\n
+          theActorInTheSpotlight().         (Loguearse.con (1,datos));\n 
+          }\n 
+          @Entonces(\"debe observar la pagina principal de sucursal virtual\")\n
+          debe ObservarLaPaginaPrincipalDeSucursalVirtual() throws Exception{\n
+          System.out.println(\"**** Finaliza la prueba exitosamente ****\");\n
+          }" >> actividad10.md
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad10.md file"
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          echo "Restore branch"
+          git checkout step10-pruebas-e2e
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      
+      # Update README to close <details id=10> and open <details id=x>
+      # and set STEP to '10'
+      - name: Update to step 10
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 9
+          to_step: 10
+          branch_name: step10-pruebas-e2e

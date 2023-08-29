@@ -1,0 +1,89 @@
+name: Step 7, Pruebas de Aceptacion
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step7-pruebas-de-aceptacion
+
+# Reference https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_pruebas_de_aceptacion:
+    name: On de aceptacion
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad7.md"
+          SEARCH: '(urlBase\:|config\.urlBase\=|\"connectTimeout\"|\("readTimeout\"|env == \"dev\"|)'
+       
+      
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 7"
+          if [ "$(cat .github/script/STEP)" != 7]
+          then
+            echo "Current step is not 7"
+            exit 7
+          fi
+          echo "Make a branch"
+          BRANCH=step8-pruebas-de-aceptacion-front
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm actividad7.md
+          echo "Make a file"
+          touch actividad8.md
+          echo -e "test(Given I had items in the cart\n 
+          When I finish the purchase\n 
+          Then I will see the message 'THANK YOU FOR YOUR ORDER',\n 
+          async ({page}) => {\n 
+          await page.click('[data-test=\"checkout\"]');\n
+          await page.fill('[data-test=\"firstName\"]', \"Fake\");\n
+          await page.    ('[data-test=\"lastName\"]', \"User\");\n
+          await page.    ('[data-test=\"postalCode\"]', \"00000\");\n
+          await     .click('[data-test=\"continue\"]');\n
+          expect(await page.innerText(\".summary_subtotal_label\")).toContain(\"55.97\");\n
+          await page.click('[data-test=\"finish\"]');\n
+          expect(await page.innerText(\".complete-header\")).toBe(\"                    \");\n
+          });" >> actividad8.md
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad8.md file"
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          echo "Restore branch"
+          git checkout step8-pruebas-de-aceptacion-front
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      
+
+      # Update README to close <details id=0> and open <details id=1>
+      # and set STEP to '8'
+      - name: Update to step 8
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 7
+          to_step: 8
+          branch_name: step8-pruebas-de-aceptacion-front

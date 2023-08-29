@@ -1,0 +1,74 @@
+name: Step 3, pipelines operativos
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step3-pipelines-operativos
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_pipelines_operativos:
+    name: On pipelines operativos
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad3.md"
+          SEARCH: '([a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*)'
+      
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 3"
+          if [ "$(cat .github/script/STEP)" != 3 ]
+          then
+            echo "Current step is not 3"
+            exit 3
+          fi
+          echo "Make a branch"
+          BRANCH=step4-metricas-de-calidad
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm actividad3.md
+          echo "Make a file"
+          touch actividad4.md
+          echo -e "- \n 
+          - \n" >>actividad4.md
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad4.md file"
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          echo "Restore branch"
+          git checkout step4-metricas-de-calidad
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      # Update README to close <details id=0> and open <details id=1>
+      # and set STEP to '3'
+      - name: Update to step 3
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 3
+          to_step: 4
+          branch_name: step4-metricas-de-calidad

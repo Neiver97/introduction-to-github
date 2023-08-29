@@ -1,0 +1,78 @@
+name: Step 4, metricas de calidad
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - step4-metricas-de-calidad
+
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  # Need `pull-requests: write` to create a pull request
+  contents: write
+  pull-requests: write
+
+jobs:
+  on_metricas_de_calidad:
+    name: On metricas de calidad
+
+    if: ${{ !github.event.repository.is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      - name: Check reponse
+        run: ./.github/script/check-file.sh
+        env:
+          FILE: "actividad4.md"
+          SEARCH: '([a-z]+(?:\.[a-z]+)*)'
+      
+      - name: Prepare branch, and file
+        run: |
+          echo "Make sure we are on step 4"
+          if [ "$(cat .github/script/STEP)" != 4 ]
+          then
+            echo "Current step is not 4"
+            exit 4
+          fi
+          echo "Make a branch"
+          BRANCH=step5-proceso-de-pruebas
+          git checkout -b $BRANCH
+          echo "Remove a file"
+          git rm actividad4.md
+          echo "Make a file"
+          touch actividad5.md
+          echo -e "1. \n 
+          2. \n
+          3. \n" >>actividad5.md
+          echo "Make a commit"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit --message="Create actividad5.md file"
+          echo "Push"
+          git push --set-upstream origin $BRANCH
+          echo "Restore branch"
+          git checkout step5-proceso-de-pruebas
+          
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+      
+
+      # Update README to close <details id=0> and open <details id=1>
+      # and set STEP to '5'
+      - name: Update to step 5
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 4
+          to_step: 5
+          branch_name: step5-proceso-de-pruebas
