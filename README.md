@@ -1063,7 +1063,7 @@ Ej metrica.nombre
 
   
 
-<details id=5 open> 
+<details id=5> 
 
 <summary><h2>Step 5: Proceso de Pruebas</h2></summary> 
 
@@ -1312,7 +1312,7 @@ Ej. nombre herramienta
   
 
 
-<details id=6> 
+<details id=6 open> 
 
 <summary><h2>Step 6: Pruebas Unitarias</h2></summary> 
 
