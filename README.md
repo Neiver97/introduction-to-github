@@ -576,7 +576,7 @@ Este tipo de pruebas evidencia las vulnerabilidades existentes en las soluciones
 
   
 
-<details id=2 open> 
+<details id=2> 
 
 <summary><h2>Step 2: Soporte Ingeniería de Software DevExp</h2></summary> 
 
@@ -739,7 +739,7 @@ Ej. - Nombre-del-Pool
 
   
 
-<details id=3> 
+<details id=3 open> 
 
 <summary><h2>Step 3: Pipelines Operativos</h2></summary> 
 
