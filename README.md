@@ -1,4 +1,4 @@
-<!--step0--> 
+<!--step0 
 
 <h1 align="center"><strong> Bienvenid@ a Prácticas de Pruebas Continuas - Curiosity</strong></h1><br> 
 
@@ -49,10 +49,10 @@ Cuando termines de leer estas instrucciones en el nuevo repositorio que creaste 
 7. Entregas el módulo final está compuesto por ejercicios que revisaremos y entregaras en los issues del repositorio template. 
 
 
-<!--endstep0--> 
+endstep0--> 
 
 
-<details id=1> 
+<details id=1 open> 
 
 <summary><h2>Step 1: Informacion General y Autogestion</h2></summary> 
 
