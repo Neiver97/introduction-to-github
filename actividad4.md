@@ -4,5 +4,5 @@
 
 - coverage.comment="Se realiza automatización de reporte ReporteCuentaNomina el {25/08/2023}"
 
--cloud.properties=true
+- cloud.properties=true
 
