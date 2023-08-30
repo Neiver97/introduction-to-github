@@ -1913,7 +1913,7 @@ assertEquals(str1,str2); **sin espacios**
 
   
 
-<details id=7 open> 
+<details id=7> 
 
 <summary><h2>Step 7: Pruebas de Aceptación (BackEnd)</h2></summary> 
 
@@ -2333,7 +2333,7 @@ https://github.com/jsierra93/karate-test-rabbitmq
 
   
 
-<details id=8> 
+<details id=8 open> 
 
 <summary><h2>Step 8: Pruebas de Aceptación (FrontEnd)</h2></summary> 
 
