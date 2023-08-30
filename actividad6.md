@@ -1,10 +1,9 @@
 //***********************************ARRANGE**********************************************// 
-
 Int a = 8;
 Int b = 4;
 
-String country1 = "Colombia"
-String country2 = "Colombia"
+String country1 = "Colombia";
+String country2 = "Colombia";
 
 String aux = null;
 
