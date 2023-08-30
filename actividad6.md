@@ -1,6 +1,6 @@
 //***********************************ARRANGE**********************************************// 
-Int a = 8;
-Int b = 4;
+int a = 8;
+int b = 4;
 
 String country1 = "Colombia";
 String country2 = "Colombia";
@@ -14,8 +14,6 @@ Boolean flag=true;
 Boolean flag2=true;
 
 //****************************************ACT*********************************************// 
-InstanceA instanceA = new InstanceA("Pepito","Perez");
-
 String text1= new String("Hola Mundo");
 String text2= new String("Hola Mundo");
 
@@ -36,7 +34,7 @@ assertFalse("Valida condición falsa",b > a);
 
 //Comprueba que un objeto no es nulo
 
-assertNotNull("Valida objeto <> null",instanceA);
+assertNotNull("Valida objeto <> null",country1);
 
 //Comprueba que un objeto es nulo
 
