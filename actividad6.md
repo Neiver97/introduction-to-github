@@ -1,3 +1,23 @@
+//***********************************ARRANGE**********************************************// 
+int val2 = 8;
+int val1 = 4;
+
+String str4 = "Colombia";
+String str5 = "Colombia";
+
+String str3 = null;
+
+byte[] expectedArray = "trial".getBytes(); 
+byte[] resultArray = "trial".getBytes(); 
+
+Boolean str1=true;
+Boolean str2=true;
+
+//****************************************ACT*********************************************// 
+String text1= new String("Hola Mundo");
+String text2= new String("Hola Mundo");
+
+//***************************************ASSERT********************************************// 
 
 //Comprueba que dos objetos son iguales
 
@@ -13,7 +33,7 @@ assertFalse(val1>val2);
 
 //Comprueba que un objeto no es nulo
 
-//assertNotNull(country1);
+assertNotNull(country1);
 
 //Comprueba que un objeto es nulo
 
