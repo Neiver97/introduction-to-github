@@ -1,6 +1,6 @@
 function fn() {
  
-var env = '#{env}#';
+var env = karate.env;
  
 karate.log('karate.env system property was:', env);
  
@@ -10,23 +10,23 @@ env = 'dev';
  
 }
  
-var      = {
-       : 'https://test-dev.apps.ambientesbc.com'
+var config = {
+  urlBase : 'https://test-dev.apps.ambientesbc.com'
  
 };
  
 if (env == 'dev') {
  
-config.      = 'https://test-dev.apps.ambientesbc.com';
+config.urlBase  = 'https://test-dev.apps.ambientesbc.com';
  
 } else if (env == 'cer') {
-config.      = 'https://test-qa.apps.ambientesbc.com';
+config.someUrlBase = 'https://test-qa.apps.ambientesbc.com';
  
 }
  
-karate.configure('       ', 5000);
+karate.configure('connectTimeout', 5000);
  
-karate.configure('       ', 5000);
+karate.configure('readTimeout', 5000);
  
 karate.configure('ssl', true);
  
