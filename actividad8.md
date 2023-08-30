@@ -10,16 +10,16 @@ await page.click('[data-test="checkout"]');
 
 await page.fill('[data-test="firstName"]', "Fake");
 
-await page.    ('[data-test="lastName"]', "User");
+await page.fill('[data-test="lastName"]', "User");
 
-await page.    ('[data-test="postalCode"]', "00000");
+await page.fill('[data-test="postalCode"]', "00000");
 
-await     .click('[data-test="continue"]');
+await page.click('[data-test="continue"]');
 
 expect(await page.innerText(".summary_subtotal_label")).toContain("55.97");
 
 await page.click('[data-test="finish"]');
 
-expect(await page.innerText(".complete-header")).toBe("                    ");
+expect(await page.innerText(".complete-header")).toBe("THANK YOU FOR YOUR ORDER");
 
 });
