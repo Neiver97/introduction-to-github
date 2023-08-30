@@ -2333,7 +2333,7 @@ https://github.com/jsierra93/karate-test-rabbitmq
 
   
 
-<details id=8 open> 
+<details id=8> 
 
 <summary><h2>Step 8: Pruebas de Aceptación (FrontEnd)</h2></summary> 
 
@@ -3250,7 +3250,7 @@ Nota2: Se tienen dos maneras de trabajar con los proyectos en Angular
 
   
 
-<details id=9> 
+<details id=9 open> 
 
 <summary><h2>Step 9: Pruebas de Aceptación (Flutter)</h2></summary> 
 
