@@ -3250,7 +3250,7 @@ Nota2: Se tienen dos maneras de trabajar con los proyectos en Angular
 
   
 
-<details id=9 open> 
+<details id=9> 
 
 <summary><h2>Step 9: Pruebas de Aceptación (Flutter)</h2></summary> 
 
@@ -3775,7 +3775,7 @@ Para más información sobre Flutter y Dart, como ejemplos de configuración de 
 
   
 
-<details id=10> 
+<details id=10 open> 
 
 <summary><h2>Step 10: Pruebas E2E</h2></summary> 
 
