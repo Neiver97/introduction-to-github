@@ -1,14 +1,14 @@
-@          ("ingresa los datos correctamente")
+@Cuando("ingresa los datos correctamente")
  
 public void ingresaLosDatosCorrectamente(List \<Credenciales\> datos) throws Exception{
 
-theActorInTheSpotlight().         (Loguearse.con (1,datos));
+theActorInTheSpotlight().attemptsTo(Loguearse.con(1,datos));
  
 }
  
 @Entonces("debe observar la pagina principal de sucursal virtual")
 
-debe ObservarLaPaginaPrincipalDeSucursalVirtual() throws Exception{
+public void debeObservarLaPaginaPrincipalDeSucursalVirtual() throws Exception{
 
 System.out.println("**** Finaliza la prueba exitosamente ****");
 
