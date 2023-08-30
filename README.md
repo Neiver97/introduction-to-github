@@ -1312,7 +1312,7 @@ Ej. nombre herramienta
   
 
 
-<details id=6 open> 
+<details id=6> 
 
 <summary><h2>Step 6: Pruebas Unitarias</h2></summary> 
 
@@ -1913,7 +1913,7 @@ assertEquals(str1,str2); **sin espacios**
 
   
 
-<details id=7> 
+<details id=7 open> 
 
 <summary><h2>Step 7: Pruebas de Aceptación (BackEnd)</h2></summary> 
 
