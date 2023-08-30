@@ -3775,7 +3775,7 @@ Para más información sobre Flutter y Dart, como ejemplos de configuración de 
 
   
 
-<details id=10 open> 
+<details id=10> 
 
 <summary><h2>Step 10: Pruebas E2E</h2></summary> 
 
