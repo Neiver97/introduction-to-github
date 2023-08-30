@@ -1,24 +1,3 @@
-//***********************************ARRANGE**********************************************// 
-int a = 8;
-int b = 4;
-
-String country1 = "Colombia";
-String country2 = "Colombia";
-
-String aux = null;
-
-byte[] expected = "trial".getBytes(); 
-byte[] actual = "trial".getBytes(); 
-
-Boolean flag=true;
-Boolean flag2=true;
-
-//****************************************ACT*********************************************// 
-String text1= new String("Hola Mundo");
-String text2= new String("Hola Mundo");
-
-//***************************************ASSERT********************************************// 
-
 
 //Comprueba que dos objetos son iguales
 
@@ -34,7 +13,7 @@ assertFalse("Valida condición falsa",val1>val2);
 
 //Comprueba que un objeto no es nulo
 
-assertNotNull("Valida objeto <> null",country1);
+//assertNotNull("Valida objeto <> null",country1);
 
 //Comprueba que un objeto es nulo
 
@@ -46,7 +25,7 @@ assertSame("Validar si dos referencias apuntan al mismo objeto",str4,str5);
 
 //Comprueba que dos referencias no apuntan al mismo objeto
 
-assertNotSame("Diferente instancia de objectos",str1,str3);
+//assertNotSame("Diferente instancia de objectos",str1,str3);
 
 //Comprueba que dos arrays son iguales.
 
